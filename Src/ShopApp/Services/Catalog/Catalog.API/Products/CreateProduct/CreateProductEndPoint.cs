@@ -1,7 +1,4 @@
-﻿using BuildingBlocks.CQRS;
-
-
-namespace Catalog.API.Products.CreateProduct;
+﻿namespace Catalog.API.Products.CreateProduct;
 public record CreateProductRequest(Guid Id, string Name, string Description,
     List<string> Category, string ImageFile, decimal Price);
 public record CreateProductResponse(Guid id);
@@ -14,7 +11,7 @@ public class CreateProductEndPoint : ICarterModule
         {
             var command = request.Adapt<CreateProductCommand>();
             var result = await sender.Send(command);
-            var response = result.Adapt<CreateProductResult>();
+            var response = result.Adapt<CreateProductResponse>();
             return Results.Created($"/products/{response.id}", response);
         })
             .WithName("CreateProduct")
